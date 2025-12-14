@@ -6,13 +6,19 @@ const Navbar = () => {
   const navigate = useNavigate();
   return (
     <div className="p-3 bg-primary text-white">
-      <div className="flex items-center justify-between">
+      <div className="flex d-container items-center justify-between">
         <div className="text-3xl">Logo</div>
         <div>
           <ul className="md:flex hidden gap-5">
-            <li>Home</li>
-            <li>About</li>
-            <li>Contact</li>
+            <li className="text-lg">
+              <a href="">Home</a>
+            </li>
+            <li className="text-lg">
+              <a href="">About</a>
+            </li>
+            <li className="text-lg">
+              <a href="">Contact</a>
+            </li>
           </ul>
         </div>
         <div className="hidden md:block">
@@ -27,14 +33,22 @@ const Navbar = () => {
         </div>
         <div className={`md:hidden absolute left-0 top-15 right-0`}>
           <ul
-            className={`flex flex-col overflow-hidden gap-5 bg-primary  transition-all duration-300 ${
+            className={`flex flex-col overflow-hidden gap-4 bg-primary  transition-all duration-300 ${
               showMenu ? "max-h-56 p-3" : "p-0 max-h-0"
             }`}
           >
-            <li>Home</li>
-            <li>About</li>
-            <li>Contact</li>
-            <li>Login</li>
+            <li className="text-lg">
+              <a href="">Home</a>
+            </li>
+            <li className="text-lg">
+              <a href="">About</a>
+            </li>
+            <li className="text-lg">
+              <a href="">Contact</a>
+            </li>
+            <li className="text-lg">
+              <a href="">Login</a>
+            </li>
           </ul>
         </div>
         <div className="text-2xl md:hidden">
