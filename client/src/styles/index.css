@@ -1,0 +1,3 @@
+.d-container {
+  @apply md:max-w-[80%] max-w-[95%] w-full mx-auto;
+}
