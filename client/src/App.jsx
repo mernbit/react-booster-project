@@ -3,7 +3,7 @@ import "./App.css";
 import Routes from "./pages/Routes";
 const App = () => {
   return (
-    <div>
+    <div className="bg-light">
       <Routes />
     </div>
   );

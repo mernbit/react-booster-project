@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { MenuOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../contexts/Auth/AuthContext";
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
+  const { isAuth, handleLogout } = useAuthContext();
   return (
     <div className="p-3 bg-primary text-white">
       <div className="flex d-container items-center justify-between">
@@ -11,25 +13,34 @@ const Navbar = () => {
         <div>
           <ul className="md:flex hidden gap-5">
             <li className="text-lg">
-              <a href="">Home</a>
+              <Link to="">Home</Link>
             </li>
             <li className="text-lg">
-              <a href="">About</a>
+              <Link to="">About</Link>
             </li>
             <li className="text-lg">
-              <a href="">Contact</a>
+              <Link to="">Contact</Link>
             </li>
           </ul>
         </div>
         <div className="hidden md:block">
-          <button
-            onClick={() => {
-              navigate("/auth/login");
-            }}
-            className="btn btn-accent tracking-wider text-primary font-bold"
-          >
-            Login
-          </button>
+          {isAuth ? (
+            <button
+              onClick={handleLogout}
+              className="btn btn-danger tracking-wider text-light font-bold"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                navigate("/auth/login");
+              }}
+              className="btn btn-accent tracking-wider text-primary font-bold"
+            >
+              Login
+            </button>
+          )}
         </div>
         <div className={`md:hidden absolute left-0 top-15 right-0`}>
           <ul
@@ -38,17 +49,23 @@ const Navbar = () => {
             }`}
           >
             <li className="text-lg">
-              <a href="">Home</a>
+              <Link to="">Home</Link>
             </li>
             <li className="text-lg">
-              <a href="">About</a>
+              <Link to="">About</Link>
             </li>
             <li className="text-lg">
-              <a href="">Contact</a>
+              <Link to="">Contact</Link>
             </li>
-            <li className="text-lg">
-              <a href="">Login</a>
-            </li>
+            {!isAuth ? (
+              <li className="text-lg">
+                <Link to="/auth/login">Login</Link>
+              </li>
+            ) : (
+              <li className="text-lg">
+                <Link to="/auth/dashboard">Dashboard</Link>
+              </li>
+            )}
           </ul>
         </div>
         <div className="text-2xl md:hidden">

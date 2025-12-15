@@ -14,3 +14,6 @@
 .btn-light {
   @apply bg-[#F9F6F3];
 }
+.btn-danger {
+  @apply bg-red-600;
+}

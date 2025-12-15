@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
+import axios from "axios";
 const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
+  const [state, setState] = useState({});
   const handleLogout = () => {
     localStorage.removeItem("authToken");
   };
@@ -16,13 +18,20 @@ const AuthProvider = ({ children }) => {
           },
         }
       );
-      console.log(res.data);
+      setState({
+        isAuth: true,
+        user: res.data.user,
+        session: res.data.session,
+      });
     } catch (error) {
       console.error(error);
     }
   };
+  useEffect(() => {
+    fetchUser();
+  }, []);
   return (
-    <AuthContext.Provider value={{ handleLogout }}>
+    <AuthContext.Provider value={{ handleLogout, ...state }}>
       {children}
     </AuthContext.Provider>
   );

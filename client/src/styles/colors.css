@@ -16,6 +16,10 @@
   @apply bg-[#F9F6F3];
 }
 
+.bg-danger {
+  @apply bg-red-600;
+}
+
 /* Text Colors */
 
 .text-primary {
@@ -32,4 +36,8 @@
 
 .text-light {
   @apply text-[#F9F6F3];
+}
+
+.text-danger {
+  @apply text-red-600;
 }
