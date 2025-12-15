@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { checkMail } from "../../../components/mailVerify";
 import { message } from "antd";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 const Register = () => {
+  const navigate = useNavigate();
   const [state, setState] = useState({
     firstName: "",
     lastName: "",
@@ -18,7 +20,7 @@ const Register = () => {
       [e.target.name]: e.target.value,
     });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let { firstName, lastName, email, password, confirmPassword } = state;
     if (!firstName) {
@@ -52,7 +54,18 @@ const Register = () => {
       email,
       password,
     };
-    console.log(formData);
+    console.log("formData", formData);
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/register`,
+      formData
+    );
+    console.log(res.data.status);
+    if (res.data.status === "success") {
+      message.success("User registered successfully");
+      navigate("/auth/login");
+    } else {
+      message.error("User registration failed");
+    }
   };
   return (
     <div className="p-3 bg-primary flex items-center justify-center min-h-screen">

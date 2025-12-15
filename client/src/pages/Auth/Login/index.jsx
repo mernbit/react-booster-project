@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { EyeFilled, EyeInvisibleFilled } from "@ant-design/icons";
 import { checkMail } from "../../../components/mailVerify";
 import { message } from "antd";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate = useNavigate();
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -15,7 +17,7 @@ const Login = () => {
       [e.target.name]: e.target.value,
     });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let { email, password } = state;
     email = email.trim();
@@ -33,12 +35,24 @@ const Login = () => {
       password,
     };
     console.log(formData);
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/login`,
+      formData
+    );
+    console.log(res.data.status);
+    if (res.data.status === "success") {
+      localStorage.setItem("authToken", res.data.token);
+      message.success("User login successful");
+      // navigate("/dashboard");
+    } else {
+      message.error("User login failed");
+    }
   };
   return (
     <div className="p-3 bg-primary flex items-center justify-center min-h-screen">
       <div className="bg-light p-3 rounded max-w-[450px] w-full">
         <h1 className="text-3xl text-center font-bold">Login</h1>
-        <form className="relative" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <label htmlFor="email">
             Email
             <span className="text-red-500">*</span>
@@ -47,28 +61,32 @@ const Login = () => {
             value={state.email}
             onChange={handleChange}
             className="auth-input"
+            placeholder="Email"
             type="email"
             name="email"
             id="email"
           />
-          <label htmlFor="password">
-            Password
-            <span className="text-red-500">*</span>
-          </label>
-          <input
-            value={state.password}
-            onChange={handleChange}
-            className="auth-input"
-            type={showPassword ? "text" : "password"}
-            name="password"
-            id="password"
-          />
-          <span
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute top-[53%] text-lg right-[2%]"
-          >
-            {!showPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
-          </span>
+          <div className="relative">
+            <label htmlFor="password">
+              Password
+              <span className="text-red-500">*</span>
+            </label>
+            <input
+              value={state.password}
+              onChange={handleChange}
+              className="auth-input"
+              placeholder="Password"
+              type={showPassword ? "text" : "password"}
+              name="password"
+              id="password"
+            />
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute top-[50%] text-lg right-[2%]"
+            >
+              {!showPassword ? <EyeFilled /> : <EyeInvisibleFilled />}
+            </span>
+          </div>
           <Link
             to="/auth/register"
             className="text-blue-500 hover:text-blue-600"
