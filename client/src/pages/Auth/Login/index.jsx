@@ -30,6 +30,8 @@ const Login = () => {
     if (!password) {
       return message.error("Password is required");
     }
+    email = email.toLowerCase();
+    email = email.trim();
     const formData = {
       email,
       password,
@@ -43,7 +45,7 @@ const Login = () => {
     if (res.data.status === "success") {
       localStorage.setItem("authToken", res.data.token);
       message.success("User login successful");
-      // navigate("/dashboard");
+      navigate("/");
     } else {
       message.error("User login failed");
     }

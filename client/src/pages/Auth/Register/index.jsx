@@ -47,6 +47,7 @@ const Register = () => {
     firstName = firstName.trim();
     lastName = lastName.trim();
     email = email.trim();
+    email = email.toLowerCase();
 
     const formData = {
       firstName,

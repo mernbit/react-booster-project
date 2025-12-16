@@ -2,10 +2,10 @@ import React from "react";
 import { useAuthContext } from "../contexts/Auth/AuthContext";
 import { Navigate } from "react-router-dom";
 
-const PrivateRouting = ({ Component }) => {
+const DashboardRouting = ({ Component }) => {
   const { isAuth } = useAuthContext();
-  if (!isAuth) return <Component />;
-  return <Navigate to="/" />;
+  if (isAuth) return <Component />;
+  return <Navigate to="/auth/login" />;
 };
 
-export default PrivateRouting;
+export default DashboardRouting;

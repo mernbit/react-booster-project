@@ -21,6 +21,11 @@ const Navbar = () => {
             <li className="text-lg">
               <Link to="">Contact</Link>
             </li>
+            {isAuth && (
+              <li className="text-lg">
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+            )}
           </ul>
         </div>
         <div className="hidden md:block">
@@ -57,13 +62,13 @@ const Navbar = () => {
             <li className="text-lg">
               <Link to="">Contact</Link>
             </li>
-            {!isAuth ? (
+            {isAuth ? (
               <li className="text-lg">
-                <Link to="/auth/login">Login</Link>
+                <Link to="/dashboard">Dashboard</Link>
               </li>
             ) : (
               <li className="text-lg">
-                <Link to="/auth/dashboard">Dashboard</Link>
+                <Link to="/auth/login">Login</Link>
               </li>
             )}
           </ul>
