@@ -11,6 +11,7 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("authToken");
     setState({ isAuth: false, user: {}, session: {} });
   };
+
   const fetchUser = async () => {
     try {
       const res = await axios.get(
@@ -35,8 +36,11 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (localStorage.getItem("authToken")) {
       fetchUser();
+    } else {
+      setIsAppLoading(false);
     }
-  }, [state]);
+  }, []);
+  console.log(state);
   if (isAppLoading) {
     return (
       <div className="bg-primary min-h-screen flex items-center justify-center">
@@ -48,7 +52,7 @@ const AuthProvider = ({ children }) => {
     );
   }
   return (
-    <AuthContext.Provider value={{ handleLogout, ...state }}>
+    <AuthContext.Provider value={{ handleLogout, fetchUser, ...state }}>
       {children}
     </AuthContext.Provider>
   );

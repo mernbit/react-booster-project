@@ -4,8 +4,10 @@ import { checkMail } from "../../../components/mailVerify";
 import { message } from "antd";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../../contexts/Auth/AuthContext";
 const Login = () => {
   const navigate = useNavigate();
+  const { fetchUser } = useAuthContext();
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -37,16 +39,19 @@ const Login = () => {
       password,
     };
     console.log(formData);
-    const res = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/login`,
-      formData
-    );
-    console.log(res.data.status);
-    if (res.data.status === "success") {
-      localStorage.setItem("authToken", res.data.token);
-      message.success("User login successful");
-      navigate("/");
-    } else {
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/login`,
+        formData
+      );
+      console.log(res.data.status);
+      if (res.data.status === "success") {
+        localStorage.setItem("authToken", res.data.token);
+        message.success("User login successful");
+        fetchUser();
+        navigate("/");
+      }
+    } catch (error) {
       message.error("User login failed");
     }
   };
